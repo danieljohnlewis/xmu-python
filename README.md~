@@ -25,7 +25,7 @@ daniel@vanirsystems.com
 
 The X-mu methodology was primarily created through the work of Prof. Trevor Martin (University of Bristol), and Daniel Lewis (University of Bristol). It is being to various applications (including ratings, traffic data) and as a boosting method to other techniques (including Fuzzy Association Rule Mining, and Fuzzy Concept Lattices). A big thank you goes to Prof. Trevor Martin.
 
-## License
+## Copyright
 Copyright 2014 Daniel Lewis
 
 Licensed under the Apache License, Version 2.0 (the "License");
