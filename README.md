@@ -41,3 +41,44 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
+## Basic Example
+Here follows a basic example of use:
+
+	from sympy import * # For Symbolic Computation
+	from xmu import * # Our X-mu Library (local)
+	init_printing() # Turns on pretty printing
+	
+	x = Symbol('x', real=True, bounded=True) # Creates a real value
+	u = Interval(1.0, 6.0) # Creates u (our Universe)
+	
+	### Large
+	large_a = 3.0
+	large_b = 5.0
+	large = UpwardGradientXmu(u, large_a, large_b) # An example of an Upward Gradient (i.e. an open Fuzzy Membership Function)
+	
+	vlarge_a = 5.0
+	vlarge_b = 6.0
+	vlarge = UpwardGradientXmu(u, vlarge_a, vlarge_b) # Another upward gradient
+	
+	### Small
+	small_a = 2.0
+	small_b = 4.0
+	small = DownwardGradientXmu(u, small_a, small_b) # Downward gradient
+	
+	### Medium: Two options, either Triangular or Trapezoidal
+	medium_a = 1
+	medium_b = 3
+	medium_c = 4
+	medium_d = 6
+	medium = TrapezoidalXmu(u, medium_a, medium_b, medium_c, medium_d)
+	#medium = TriangularXmu(u, medium_a, medium_b, medium_d)
+	
+	### This will perform: (Small union Large) - Medium
+	testplot = small.unionX(large).differenceX(medium).get_xequals()
+	
+	### Graph showing testplot and large
+	graph = Graph(100, u)
+	graph.prepare_plot(testplot, u"(Small union Large) - Medium")
+	graph.add_plot(large, u"Large")
+	graph.show_plot()
+
