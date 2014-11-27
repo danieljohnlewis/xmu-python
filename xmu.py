@@ -123,6 +123,38 @@ class Xmu(object):
 		result = self.u - self.get_xequals()
 		return BasicXmu(self.u, result)
 	
+	def implicationAtX(self, i2, X, implication_type="lukasiewicz"):
+		""" 
+		@IMPORTANT	This is not an X-mu operation, and is very experimental.
+		@description Performs an implication at a certain point (alpha) along the X dimension.
+		@warning	Only works on Xmu types which have a muequals set!
+		@note	Fuzzy implications come from "A new approach in Zadeh’s classification: fuzzy implication through statistic implication " ( http://math.unipa.it/~grim/nafips_gras_spagnolo_232 )
+		@todo	Test more extensively, and also find an example to work on. Might need a lot more work. Could be completely wrong!
+		@todo	More research and development required - e.g. implication defined by Zadeh, and also Mamdani
+		@todo	More to implement via: "Fuzzy power sets and fuzzy implication operators" ( http://www.sciencedirect.com/science/article/pii/0165011480900603 )
+		@return 0.0 (representing false), or 1.0 (representing true)
+		"""
+		mu_a = self.get_muequals().subs(self.x, float(X))
+		mu_b = i2.get_muequals().subs(self.x, float(X))	
+			
+		if implication_type is "lukasiewicz":
+			result = min(	(1.0 - mu_a + mu_b), 	1.0		)
+			return result
+		elif implication_type is "reichenbach":
+			result = 1.0 - mu_a + mu_a * mu_b
+			return result
+		elif implication_type is "kleenedienes":
+			result = max(1.0 - mu_a, mu_b)
+			return result
+		elif implication_type is "binary":
+			if (mu_a <= mu_b):
+				return 1.0
+			else:
+				return 0.0
+		else:
+			return 0.0
+	
+	
 	def arithmeticalOperationX(self, i2, alpha, operation):
 		""" Wrapper class for performing Fuzzy Arithmetic on X-mu Functions using SymPy/MPI. Primarily used as a private class, but could be used publicly.
 		@param	i2	the target sympy formula.
@@ -478,13 +510,14 @@ class Graph:
 		self.granularity = granularity
 		self.alphas = [float(i)/float(self.granularity) for i in range(0, granularity+1)]
 		
-	def prepare_plot(self, plot, plot_title, ylim_top=None):
+	def prepare_plot(self, plot, plot_title, ylim_top=None, colour=None):
 		""" Sets up initial information for a plot.
 		@param	plot	an Xmu instance to plot
 		@param	plot_title	the title of the Xmu object
 		@param	ylim_top	the maximum limit of the y axis
+		@param	colour	the colour of the visualisation of this Xmu object
 		"""
-		self.add_plot(plot, plot_title)
+		self.add_plot(plot, plot_title, colour=colour)
 		self.plt.xlabel('mu')
 		self.plt.xlim(0.0, 1.0)
 		if ylim_top == None:

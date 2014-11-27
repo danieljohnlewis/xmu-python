@@ -82,3 +82,12 @@ Here follows a basic example of use:
 	graph.add_plot(large, u"Large")
 	graph.show_plot()
 
+## Showcasing the X-mu Library: The Online X-mu Calculator
+
+The X-mu Calculator is now online and is available at:
+http://xmu.pythonanywhere.com/
+
+The calculator allows the user to show graphs and also perform union, intersection and set difference. The online calculator (currently) only works over a continuous domain of real numbers, and using two membership functions (either L-Function, R-Function, Trapezoidal or Triangular).
+
+It is python based, uses the X-mu Library, and is built using the Django web framework.
+
